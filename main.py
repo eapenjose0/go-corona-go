@@ -12,6 +12,7 @@ def get_district_list():
     distric_list = {}
     response = requests.get("https://cdn-api.co-vin.in/api/v2/admin/location/districts/{}".format(STATE_CODE))
     json_data = json.loads(response.text)
+    print(json_data)
     for district in json_data["districts"]:
         distric_list[district["district_id"]] = district["district_name"]
 
@@ -40,7 +41,6 @@ def main():
                 message_id = prev_message_details[district_id]["message_id"]
                 chat_id = prev_message_details[district_id]["chat_id"]
 
-                print(message_id, chat_id)
                 try:
                     telegram_utils.bot.delete_message(chat_id=chat_id,
                     message_id=message_id)
@@ -49,6 +49,7 @@ def main():
 
 
             if len(kerala_centers) == 0: 
+                print(f"NO slots available {DISTRICT_NAME}")
                 continue         
             
             for center in kerala_centers:
